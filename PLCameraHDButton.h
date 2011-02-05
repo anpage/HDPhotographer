@@ -26,7 +26,7 @@
 
 @interface PLCameraHDButton : PLCameraHDRButton
 {
-	BOOL HDEnabled;
+    BOOL HDEnabled;
 }
 
 - (void)setButtonState:(BOOL)Enabled;

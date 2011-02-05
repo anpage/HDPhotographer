@@ -35,11 +35,11 @@ PLCameraHDButton *HDButton;
 %hook PLCameraView
 
 - (void)_updateOverlayControls {
-	
-	%orig;
     
-	//UI-handling stuff
-	
+    %orig;
+    
+    //UI-handling stuff
+    
     PLCameraController *&cameraController(MSHookIvar<PLCameraController *>(self, "_cameraController"));
     
     UIView *&overlayView(MSHookIvar<UIView *>(self, "_overlayView"));
@@ -49,7 +49,7 @@ PLCameraHDButton *HDButton;
         
         if (HDButton == NULL)
         {
-			
+            
             HDButton = [[PLCameraHDButton alloc] initWithFrame:CGRectMake(20,20,122,63)];
             
         }
@@ -66,7 +66,7 @@ PLCameraHDButton *HDButton;
         [HDButton removeFromSuperview];
         
     }
-	
+    
 }
 
 %end
@@ -74,26 +74,26 @@ PLCameraHDButton *HDButton;
 %hook AVCapture
 
 - (id)optionsForCaptureMode:(NSString *) captureMode qualityPreset:(NSString *) qualityPreset {
-	
-	BOOL HDEnabled;
-	
-	if (HDButton != NULL) {
-		
-		HDEnabled = [HDButton HDEnabled];
-		
-	} else { //If the HD toggle button hasn't been created yet, use the user defaults
-			
-		HDEnabled = [[NSUserDefaults standardUserDefaults] boolForKey:@"HDEnabled"]; 
-		
-	}
+    
+    BOOL HDEnabled;
+    
+    if (HDButton != NULL) {
+        
+        HDEnabled = [HDButton HDEnabled];
+        
+    } else { //If the HD toggle button hasn't been created yet, use the user defaults
+            
+        HDEnabled = [[NSUserDefaults standardUserDefaults] boolForKey:@"HDEnabled"]; 
+        
+    }
 
-	
-	NSMutableDictionary *result = [NSMutableDictionary dictionaryWithDictionary:%orig];
-	
-	if ([captureMode isEqualToString:@"AVCaptureMode_PhotoCapture"])
-	{
-		
-		NSMutableDictionary *tempDict = [NSMutableDictionary dictionaryWithDictionary:[result objectForKey:@"LiveSourceOptions"]];
+    
+    NSMutableDictionary *result = [NSMutableDictionary dictionaryWithDictionary:%orig];
+    
+    if ([captureMode isEqualToString:@"AVCaptureMode_PhotoCapture"])
+    {
+        
+        NSMutableDictionary *tempDict = [NSMutableDictionary dictionaryWithDictionary:[result objectForKey:@"LiveSourceOptions"]];
         
         NSMutableDictionary *tempCaptureDict = [NSMutableDictionary dictionaryWithDictionary:[tempDict objectForKey:@"Capture"]];
         
@@ -101,37 +101,37 @@ PLCameraHDButton *HDButton;
         
         NSMutableDictionary *tempSensorDict = [NSMutableDictionary dictionaryWithDictionary:[tempDict objectForKey:@"Sensor"]];
         
-		if (HDEnabled) { //If HD is enabled, set the capture mode settings accordingly
-			
-			[tempCaptureDict setValue: [NSNumber numberWithInt:1280] forKey: @"Width"];
+        if (HDEnabled) { //If HD is enabled, set the capture mode settings accordingly
+            
+            [tempCaptureDict setValue: [NSNumber numberWithInt:1280] forKey: @"Width"];
         
-			[tempSensorDict setValue: [NSNumber numberWithInt:1280] forKey: @"Width"];
+            [tempSensorDict setValue: [NSNumber numberWithInt:1280] forKey: @"Width"];
         
-			[tempPreviewDict setValue: [NSNumber numberWithInt:540] forKey: @"Height"];
-			
-		} else { //Vise-versa for HD disabled
-			
-			[tempCaptureDict setValue: [NSNumber numberWithInt:960] forKey: @"Width"];
-			
-			[tempSensorDict setValue: [NSNumber numberWithInt:960] forKey: @"Width"];
-			
-			[tempPreviewDict setValue: [NSNumber numberWithInt:720] forKey: @"Height"];
-			
-		}
+            [tempPreviewDict setValue: [NSNumber numberWithInt:540] forKey: @"Height"];
+            
+        } else { //Vise-versa for HD disabled
+            
+            [tempCaptureDict setValue: [NSNumber numberWithInt:960] forKey: @"Width"];
+            
+            [tempSensorDict setValue: [NSNumber numberWithInt:960] forKey: @"Width"];
+            
+            [tempPreviewDict setValue: [NSNumber numberWithInt:720] forKey: @"Height"];
+            
+        }
 
-		
-		[tempDict setValue: tempCaptureDict forKey: @"Capture"];
+        
+        [tempDict setValue: tempCaptureDict forKey: @"Capture"];
         
         [tempDict setValue: tempPreviewDict forKey: @"Preview"]; 
         
         [tempDict setValue: tempSensorDict forKey: @"Sensor"]; 
-		
-		[result setValue: tempDict forKey: @"LiveSourceOptions"];
-		
-	}
-	
-	return result;
-	
+        
+        [result setValue: tempDict forKey: @"LiveSourceOptions"];
+        
+    }
+    
+    return result;
+    
 }
 
 %end

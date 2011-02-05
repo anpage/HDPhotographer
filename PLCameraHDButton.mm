@@ -22,25 +22,25 @@
 
 - (id)initWithFrame:(struct CGRect)arg1
 {
-	
-	[super initWithFrame:arg1];
-	
-	[_hdrOnLabel setText:@"HD On"];
-	
-	[_hdrOffLabel setText:@"HD Off"];
-	
-	//TODO: Find a more dynamic way of positioning the button to account for custom fonts
-	//Also, the button doesn't want to reorient when the device is upside-down
+    
+    [super initWithFrame:arg1];
+    
+    [_hdrOnLabel setText:@"HD On"];
+    
+    [_hdrOffLabel setText:@"HD Off"];
+    
+    //TODO: Find a more dynamic way of positioning the button to account for custom fonts
+    //Also, the button doesn't want to reorient when the device is upside-down
     
     CGRect tempFrame = [self frame];
-	
+    
     tempFrame.size.width = [_hdrOnLabel contentsSize].width + 64;
     
     [self setFrame: tempFrame];
     
     [self setButtonState: [[NSUserDefaults standardUserDefaults] boolForKey:@"HDEnabled"]];
-	
-	return self;
+    
+    return self;
 }
 
 - (void)_handleSingleTap:(id)arg1
@@ -48,13 +48,13 @@
     
     [self setButtonState: [[NSNumber numberWithFloat: [_hdrOnLabel alpha]] isEqualToNumber: [NSNumber numberWithFloat: 0]]];
     
-	[self reloadCaptureMode];
+    [self reloadCaptureMode];
     
 }
 
 - (void)setButtonState:(BOOL)Enabled {
-	
-	if (Enabled)
+    
+    if (Enabled)
     {
         
         [[NSUserDefaults standardUserDefaults]
@@ -62,41 +62,41 @@
          setObject: @"YES" forKey:@"HDEnabled"];
         
         _hdrEnabled = true;
-		HDEnabled = true;
+        HDEnabled = true;
         [_hdrOnLabel setAlpha: 1.0F];
         [_hdrOffLabel setAlpha: 0.0F];
-		
         
-		if ([[[self superview] superview] superview] != NULL) {
-			
-			PLCameraView *cameraView = (PLCameraView *)[[[self superview] superview] superview];
-			
-			PLCameraController *&cameraController(MSHookIvar<PLCameraController *>(cameraView, "_cameraController"));
-			
-			[cameraController _setPreviewZoomMode:1 force:YES];
-			
-		}
+        
+        if ([[[self superview] superview] superview] != NULL) {
+            
+            PLCameraView *cameraView = (PLCameraView *)[[[self superview] superview] superview];
+            
+            PLCameraController *&cameraController(MSHookIvar<PLCameraController *>(cameraView, "_cameraController"));
+            
+            [cameraController _setPreviewZoomMode:1 force:YES];
+            
+        }
         
     } else {
-		
+        
         [[NSUserDefaults standardUserDefaults]
          
          setObject: @"NO" forKey:@"HDEnabled"];
         
         _hdrEnabled = false;
-		HDEnabled = false;
+        HDEnabled = false;
         [_hdrOnLabel setAlpha: 0.0F];
         [_hdrOffLabel setAlpha: 1.0F];
         
     }
-	
-	[[NSUserDefaults standardUserDefaults] synchronize];
-	
+    
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
 }
 
 - (void)reloadCaptureMode {
-	
-	PLCameraView *cameraView = (PLCameraView *)[[[self superview] superview] superview];
+    
+    PLCameraView *cameraView = (PLCameraView *)[[[self superview] superview] superview];
     
     PLCameraController *&cameraController(MSHookIvar<PLCameraController *>(cameraView, "_cameraController"));
     
@@ -111,7 +111,7 @@
     [avCapture setCaptureMode: captureMode qualityPreset: qualityPreset];
     
     [cameraView enableCamera];
-	
+    
 }
 
 - (void)_setHDREnabled:(BOOL)arg1 notifyDelegate:(BOOL)arg2 animated:(BOOL)arg3
