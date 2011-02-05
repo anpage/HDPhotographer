@@ -1,0 +1,15 @@
+Package: com.frigid.hdphotographer
+Name: HD Photographer
+Depends: mobilesubstrate, firmware (>= 4.1)
+Version: 1.1
+Architecture: iphoneos-arm
+Description: 720p Photos with iPT 4G
+ Requires iOS 4.1+
+ and an iPod Touch 4G device.
+ 
+ This enables the taking of widescreen (720p) photos on the iPod Touch 4th Generation. This effectively adds more megapixels to the resulting photos at the cost of losing the traditional 4:3 aspect ratio. Because of this cost, this tweak also adds a button to the camera app that toggles the tweak in case you would like to retain the original aspect ratio.
+ 
+ There are no icons installed for this item, and no settings to configure.
+Maintainer: Alex Page (ss2man44/Frigid)
+Author: Alex Page (ss2man44/Frigid)
+Section: Tweaks
