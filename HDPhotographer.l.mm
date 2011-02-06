@@ -21,19 +21,6 @@
 
 PLCameraHDButton *HDButton;
 
-%hook PLCameraFlashLabelView
-- (id)initWithFrame:(struct CGRect)arg1 { %log; return %orig; }
-- (void)dealloc { %log; %orig; }
-- (void)_reloadLabelContents { %log; %orig; }
-- (void)sizeToFit { %log; %orig; }
-- (struct CGImage *)_newLabelImage:(BOOL)arg1 { %log; return %orig; }
-- (void)updateLabelContents { %log; %orig; }
-- (BOOL)_shouldAnimatePropertyWithKey:(id)arg1 { %log; return %orig; }
-%end
-
-
-%hook PLCameraView
-
 - (void)_updateOverlayControls {
     
     %orig;
